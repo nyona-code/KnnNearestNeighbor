@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
 
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.decomposition import PCA
@@ -14,6 +15,7 @@ stopwords = stopwords.words('english')
 # IF NEEDING TO REMOVE WORDS ADD THOSE WORDS TO THE STOPWORDS LIST
 new_words = ["ya"]
 stopwords.append(new_words)
+stemmer = PorterStemmer()
 
 train_data = open("trainhw1new.txt", "r")
 test_data = open("testdatahw1.txt", "r")
@@ -48,7 +50,7 @@ for line in train_data:
     new_line = []
     for word in word_tokens:
         if word not in stopwords:
-            new_line.append(word)
+            new_line.append(stemmer.stem(word))
 
     new_line = ' '.join(new_line)
     # Add to X_train
@@ -96,6 +98,3 @@ for vector in X_train_tf_Array:
         if cosine == 0:
             i += 1
             print(i)
-
-
-
